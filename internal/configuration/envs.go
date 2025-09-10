@@ -11,6 +11,7 @@ import (
 type Config struct {
 	PublicHost             string
 	Port                   string
+	GinMode                string
 	DBUser                 string
 	DBPassword             string
 	DBHost                 string
@@ -30,6 +31,7 @@ func initConfig() Config {
 	return Config{
 		PublicHost:             getEnv("PUBLIC_HOST", "http://localhost"),
 		Port:                   getEnv("PORT", "8002"),
+		GinMode:                getEnv("GIN_MODE", "release"),
 		DBUser:                 getEnv("DB_USER", "myuser"),
 		DBPassword:             getEnv("DB_PASSWORD", "1234"),
 		DBHost:                 getEnv("DB_HOST", "localhost"),

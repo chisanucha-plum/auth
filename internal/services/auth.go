@@ -69,8 +69,12 @@ func NewAuthService(db *gorm.DB) *AuthService {
 func (s *AuthService) Register(username, email, password, fullName string) (string, error) {
 	// Check if user already exists
 	var existingUser models.User
-	if err := s.db.Where("username = ? OR email = ?", username, email).First(&existingUser).Error; err == nil {
+	err := s.db.Where("username = ? OR email = ?", username, email).First(&existingUser).Error
+	if err == nil {
 		return "", errors.New("user already exists")
+	}
+	if !errors.Is(err, gorm.ErrRecordNotFound) {
+		return "", err
 	}
 
 	// Hash password
